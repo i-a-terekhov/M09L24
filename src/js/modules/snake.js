@@ -34,8 +34,8 @@ export class Snake {
         for (let i = 0; i < this.snake.length; i++) {
             this.context.fillStyle = 'black';
             this.context.beginPath();
-            this.context.fillRect(this.snake[i].x * this.positionsSize,
-                this.snake[i].y * this.positionsSize, this.positionsSize, this.positionsSize);
+            this.context.fillRect(this.snake[i].x * this.positionsSize - this.positionsSize,
+                this.snake[i].y * this.positionsSize - this.positionsSize, this.positionsSize, this.positionsSize);
         }
 
         let newHeadPosition = {
@@ -46,13 +46,29 @@ export class Snake {
         this.snake.pop();
 
         if (this.currentDirection === 'left') {
-            newHeadPosition.x -= 1;
+            if (newHeadPosition.x === 1) {
+                newHeadPosition.x = this.positionsCount;
+            } else {
+                newHeadPosition.x -= 1;
+            }
         } else if (this.currentDirection === 'right') {
-            newHeadPosition.x += 1;
+            if (newHeadPosition.x === this.positionsCount) {
+                newHeadPosition.x = 1;
+            } else {
+                newHeadPosition.x += 1;
+            }
         } else if (this.currentDirection === 'up') {
-            newHeadPosition.y -= 1;
+            if (newHeadPosition.y === 1) {
+                newHeadPosition.y = this.positionsCount;
+            } else {
+                newHeadPosition.y -= 1;
+            }
         } else if (this.currentDirection === 'down') {
-            newHeadPosition.y += 1;
+            if (newHeadPosition.y === this.positionsCount) {
+                newHeadPosition.y = 1;
+            } else {
+                newHeadPosition.y += 1;
+            }
         }
 
         this.snake.unshift(newHeadPosition);
