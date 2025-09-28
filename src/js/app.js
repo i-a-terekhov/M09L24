@@ -1,3 +1,5 @@
+import {Game} from "./modules/game.js";
+
 class App {
 
     settings = {
@@ -13,7 +15,7 @@ class App {
 
         const context = canvas.getContext('2d');
 
-
+        new Game(context, this.settings);
     }
 
 }
