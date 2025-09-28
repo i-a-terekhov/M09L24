@@ -8,6 +8,7 @@ export class Game {
     positionsCount = null;
     positionsSize = null;
     scoreElement = null;
+    interval = null;
     score = 0;
 
     constructor(context, settings) {
@@ -24,27 +25,42 @@ export class Game {
     }
 
     startGame() {
+        if (this.interval) {
+            clearInterval(this.interval);
+        }
 
         this.food = new Food(this.context, this.positionsCount, this.positionsSize);
         this.snake = new Snake(this.context, this.positionsCount, this.positionsSize);
 
         this.food.setNewFoodPosition();
-        setInterval(this.gameProcess.bind(this), 100);
+        this.interval = setInterval(this.gameProcess.bind(this), 100);
     }
 
     gameProcess() {
         this.context.clearRect(0, 0, this.positionsCount * this.positionsSize, this.positionsCount * this.positionsSize);
 
-        this.showGrid();
+        // this.showGrid();  // #MEMO Отображает сетку
         this.food.showFood();
         let result = this.snake.showSnake(this.food.foodPosition);
         if (result) {
-            if (result.gotFood) {
+            if (result.colission) {
+                this.endGame();
+            } else if (result.gotFood) {
                 this.score += 1;
                 this.scoreElement.innerText = this.score;
                 this.food.setNewFoodPosition();
             }
         }
+    }
+
+    endGame() {
+        clearInterval(this.interval);
+
+        this.context.fillStyle = 'black';
+        this.context.font = 'bold 48px Arial';
+        this.context.textAlign = 'center';
+        this.context.fillText('Вы набрали: ' + this.score + ' очков!',
+            (this.positionsCount * this.positionsSize) / 2, (this.positionsCount * this.positionsSize) / 2);
     }
 
     showGrid() {
