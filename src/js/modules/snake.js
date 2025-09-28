@@ -12,6 +12,22 @@ export class Snake {
         this.context = context;
         this.positionsCount = positionsCount;
         this.positionsSize = positionsSize;
+
+        this.addKeyboardHandler();
+    }
+
+    addKeyboardHandler() {
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowLeft' && this.currentDirection !== 'right') {
+                this.currentDirection = 'left';
+            } else if (event.key === 'ArrowRight' && this.currentDirection !== 'left') {
+                this.currentDirection = 'right';
+            } else if (event.key === 'ArrowUp' && this.currentDirection !== 'down') {
+                this.currentDirection = 'up';
+            } else if (event.key === 'ArrowDown' && this.currentDirection !== 'up') {
+                this.currentDirection = 'down';
+            }
+        })
     }
 
     showSnake() {
